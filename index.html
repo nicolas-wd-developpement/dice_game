@@ -27,7 +27,7 @@
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size="12" size-sm='2'>
       <div class="ion-text-center">
-        <h2>PLAYER 1</h2>
+        <h2 id="player1Status">PLAYER 1</h2>
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
@@ -36,58 +36,60 @@
     </ion-col>
     <ion-col size="12" size-sm='2' class="player2Wait">
       <div class="ion-text-center">
-        <h2>PLAYER 2</h2>
+        <h2 id="player2Status">PLAYER 2</h2>
       </div>
     </ion-col>
   </ion-row>
 
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size="12" size-sm='2'>
-      <div class="ion-text-center">
+      <div class="ion-text-center ion-justify-content-center">
         <h3 id="holdScorePlayer1"> Score player 1</h3>
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
       <div class="ion-text-center">
-        <span id="dice"> DICE </span>
+        <canvas id="canvas" width="10" height="10">
+          Désolé, votre navigateur ne prend pas en charge canvas
+        </canvas>
       </div>
     </ion-col>
-    <ion-col size="12"size-sm='2' class="player2Wait">
-      <div class="ion-text-center">
-        <h3 id="holdScorePlayer1"> Score player 2</h3>
+    <ion-col size="12"size-sm='2' class="player2Wait" class="ion-margin">
+      <div class="ion-text-center" class="ion-justify-content-center">
+        <h3 id="holdScorePlayer2"> Score player 2</h3>
       </div>
     </ion-col>
   </ion-row>
 
   <!--Bottom-->
   <ion-row class="ion-justify-content-center ion-padding-vertical">
-    <ion-col size="12" size-sm='2'>
-      <div class="ion-text-center">
+    <ion-col size="12" size-sm='4' class="ion-padding">
+      <div  class="ion-text-center ion-justify-content-center ion-margin">
         <h3 id="currentScorePlayer1"> Current score player 1</h3>
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
       <!--PLAYING ZONE-->
       <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-col size="12">
-        <div class="ion-text-center">
-          <span id="dice"> ROLE DICE </span>
+        <ion-col  size="12" size-sm='4'>
+        <div class="ion-text-center ">
+          <span id="playDice"> ROLE DICE </span>
           </ion-col>
         </div>
       </ion-row>
 
       <ion-row class="ion-justify-content-center ion-padding-vertical">
-        <ion-col size="12">
-        <div class="ion-text-center">
-          <span id="hold"> HOLD </span>
+        <ion-col  size="12" size-sm='4'>
+        <div class="ion-text-center ">
+          <span id="holdScore"> HOLD </span>
           </ion-col>
         </div>
       </ion-row>
-
     </ion-col>
-    <ion-col size="12" size-sm='2'>
-      <div class="ion-text-center">
-        <h3 id="currentScorePlayer1"> Current score player 2</h3>
+
+    <ion-col size="12" size-sm='4' class="ion-padding">
+      <div   class="ion-text-center ion-justify-content-center ion-margin">
+        <h3 id="currentScorePlayer2"> Current score player 2</h3>
       </div>
     </ion-col>
   </ion-row>

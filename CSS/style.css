@@ -1,7 +1,3 @@
-.player2Wait {
-    display: none;
-  }
-
   :root {
     --ion-background-color: #cccccc;
     --ion-background-color-rgb: 255,255,255;
@@ -28,4 +24,9 @@
     --ion-color-step-850: #262626;
     --ion-color-step-900: #191919;
     --ion-color-step-950: #0d0d0d;
+  }
+
+ #currentScorePlayer1, #currentScorePlayer2{
+    background-color: red;
+    padding: 10px;
   }
