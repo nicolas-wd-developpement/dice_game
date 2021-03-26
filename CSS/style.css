@@ -1,32 +1,38 @@
-  :root {
-    --ion-background-color: #cccccc;
-    --ion-background-color-rgb: 255,255,255;
-  
-    --ion-text-color: #000000;
-    --ion-text-color-rgb: 0,0,0;
-  
-    --ion-color-step-50: #f2f2f2;
-    --ion-color-step-100: #e6e6e6;
-    --ion-color-step-150: #d9d9d9;
-    --ion-color-step-200: #cccccc;
-    --ion-color-step-250: #bfbfbf;
-    --ion-color-step-300: #b3b3b3;
-    --ion-color-step-350: #a6a6a6;
-    --ion-color-step-400: #030303;
-    --ion-color-step-450: #8c8c8c;
-    --ion-color-step-500: #808080;
-    --ion-color-step-550: #737373;
-    --ion-color-step-600: #666666;
-    --ion-color-step-650: #595959;
-    --ion-color-step-700: #4d4d4d;
-    --ion-color-step-750: #404040;
-    --ion-color-step-800: #333333;
-    --ion-color-step-850: #262626;
-    --ion-color-step-900: #191919;
-    --ion-color-step-950: #0d0d0d;
-  }
-
  #currentScorePlayer1, #currentScorePlayer2{
-    background-color: red;
-    padding: 10px;
+  background-color: red;
+    color: white;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 25px;
   }
+#holdScorePlayer1, #holdScorePlayer2{
+  color: red;
+  font-size: 50px;
+}
+
+
+#bg1 {
+  z-index: -1;
+  background-color: grey;
+  width: max-content;
+  position: absolute;
+  height: 1500px;
+}
+#bg2 {
+  z-index: -1;
+  background-color: grey;
+  width: max-content;
+  position: absolute;
+  height: 1500px;
+}
+
+.round {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}

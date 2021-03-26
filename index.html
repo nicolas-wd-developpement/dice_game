@@ -12,14 +12,21 @@
     <meta name="description" content="Bienvenu sur votre jeux de dé. Atteignez 100 points en premier et battez votre adversaire">
     <title>Jeux de dé</title>
 </head>
-<body color="primary">
+<body>
+  <ion-row>
+    <ion-col size="6" id="bg1">
+    </ion-col>
+    <ion-col size="6" id="bg2">
+    </ion-col>
+  </ion-row>
+
   <!--This app is mobile designed first Only the players that need to throw the dice is shown.-->
   
   <!-- Top Head-->
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size="12">
       <div class="ion-text-center">
-        <h3 id="startNewGame" color="primary">NEW GAME</h3>
+        <h3 id="startNewGame">NEW GAME</h3>
       </div>
     </ion-col>
   </ion-row>
@@ -27,7 +34,8 @@
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size="12" size-sm='2'>
       <div class="ion-text-center">
-        <h2 id="player1Status">PLAYER 1</h2>
+        <h2 id="player1Status"><ion-input value="PLAYER 1"></ion-input> <canvas id="activePlayer1" width="40" height="40"></canvas></h2>
+      </h2>
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
@@ -36,25 +44,23 @@
     </ion-col>
     <ion-col size="12" size-sm='2' class="player2Wait">
       <div class="ion-text-center">
-        <h2 id="player2Status">PLAYER 2</h2>
+        <h2 id="player2Status"><ion-input value="PLAYER 2"></ion-input><canvas id="activePlayer2" width="40" height="40"></canvas></h2>
       </div>
     </ion-col>
   </ion-row>
 
-  <ion-row class="ion-justify-content-center ion-padding-vertical">
-    <ion-col size="12" size-sm='2'>
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="12" size-sm='4'>
       <div class="ion-text-center ion-justify-content-center">
         <h3 id="holdScorePlayer1"> Score player 1</h3>
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
-      <div class="ion-text-center">
-        <canvas id="canvas" width="10" height="10">
+        <div id="dice">
           Désolé, votre navigateur ne prend pas en charge canvas
-        </canvas>
-      </div>
+        </div>
     </ion-col>
-    <ion-col size="12"size-sm='2' class="player2Wait" class="ion-margin">
+    <ion-col size="12"size-sm='4' class="player2Wait" class="ion-margin">
       <div class="ion-text-center" class="ion-justify-content-center">
         <h3 id="holdScorePlayer2"> Score player 2</h3>
       </div>
@@ -62,10 +68,10 @@
   </ion-row>
 
   <!--Bottom-->
-  <ion-row class="ion-justify-content-center ion-padding-vertical">
+  <ion-row>
     <ion-col size="12" size-sm='4' class="ion-padding">
-      <div  class="ion-text-center ion-justify-content-center ion-margin">
-        <h3 id="currentScorePlayer1"> Current score player 1</h3>
+      <div  class="round">
+        <h3 id="currentScorePlayer1"> ROUND player 1</h3>
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
@@ -87,9 +93,9 @@
       </ion-row>
     </ion-col>
 
-    <ion-col size="12" size-sm='4' class="ion-padding">
-      <div   class="ion-text-center ion-justify-content-center ion-margin">
-        <h3 id="currentScorePlayer2"> Current score player 2</h3>
+    <ion-col size="12" size-sm='4'>
+      <div  class="round">
+        <h3 id="currentScorePlayer2"> ROUND player 2</h3>
       </div>
     </ion-col>
   </ion-row>
@@ -101,6 +107,10 @@
 <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
 <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+<!-- Konva install for Canvas-->
+<script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
 <script src="JAVASCRIPT/script.js"></script>
+<script src="JAVASCRIPT/animate.js"></script>
+<script src="JAVASCRIPT/inputs.js"></script>
 </body>
 </html>
