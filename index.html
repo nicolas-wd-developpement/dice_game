@@ -26,7 +26,7 @@
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size="12">
       <div class="ion-text-center">
-        <h3 id="startNewGame">NEW GAME</h3>
+        <h3 id="startNewGame"><ion-icon name="add-circle-outline"></ion-icon> NEW GAME </h3>
       </div>
     </ion-col>
   </ion-row>
@@ -34,7 +34,7 @@
   <ion-row class="ion-justify-content-center ion-padding-vertical">
     <ion-col size="12" size-sm='2'>
       <div class="ion-text-center">
-        <h2 id="player1Status"><ion-input value="PLAYER 1"></ion-input> <canvas id="activePlayer1" width="40" height="40"></canvas></h2>
+        <h2 id="player1Status"><ion-input value="PLAYER 1"></ion-input> <canvas id="activePlayer1" width="40" height="40"> Your browerser does not support Canvas</canvas></h2>
       </h2>
       </div>
     </ion-col>
@@ -56,9 +56,7 @@
       </div>
     </ion-col>
     <ion-col size="12" size-sm='4'>
-        <div id="dice">
-          Désolé, votre navigateur ne prend pas en charge canvas
-        </div>
+        <div id="dice"></div>
     </ion-col>
     <ion-col size="12"size-sm='4' class="player2Wait" class="ion-margin">
       <div class="ion-text-center" class="ion-justify-content-center">
@@ -79,7 +77,7 @@
       <ion-row class="ion-justify-content-center ion-padding-vertical">
         <ion-col  size="12" size-sm='4'>
         <div class="ion-text-center ">
-          <span id="playDice"> ROLE DICE </span>
+          <span id="playDice"><ion-icon name="reload-outline"></ion-icon> ROLE DICE </span>
           </ion-col>
         </div>
       </ion-row>
@@ -87,7 +85,7 @@
       <ion-row class="ion-justify-content-center ion-padding-vertical">
         <ion-col  size="12" size-sm='4'>
         <div class="ion-text-center ">
-          <span id="holdScore"> HOLD </span>
+          <span id="holdScore"> <ion-icon name="push-outline"></ion-icon> HOLD </span>
           </ion-col>
         </div>
       </ion-row>
@@ -111,6 +109,6 @@
 <script src="https://unpkg.com/konva@7.0.3/konva.min.js"></script>
 <script src="JAVASCRIPT/script.js"></script>
 <script src="JAVASCRIPT/animate.js"></script>
-<script src="JAVASCRIPT/inputs.js"></script>
+
 </body>
 </html>

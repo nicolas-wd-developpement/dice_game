@@ -1,39 +1,31 @@
 $(document).ready(() => {
     var playerTour = 0
     var score = 0
-
     var width = window.innerWidth;
     var displayMobile = false
-    var scorePlayerOne = 0
-    var scorePlayerTwo = 0
-    var newGame = $('startNewGame')
-    var player1Status = $('player1Status')
-    var player2Status = $('player1Status')
     var holdScorePlayer1 = 0
-    var canvaDice = $('canvaDice')
     var holdScorePlayer2 = 0
     var currentScorePlayer = 0
-    var playDice = $('#playDice')
-    var holdScore = $('#holdScore')
-    var currentScorePlayer2 = 0
-    var timeoutID
     var numberOfPlayers = 0
-     // This application is mobile designed first. The active gamer is only shown on mobile
-   if(width<=576){
-        displayMobile = true;
-        $('#currentScorePlayer2').hide()
-        $('#holdScorePlayer2').hide()
-        $('#player2Status').hide()
-        $('#bg1').hide()
-        $('#bg2').hide()
-        $('body').css("background-color","grey");
-        }else{
-        displayMobile = false;
-        $('#currentScorePlayer2').show()
-        $('#holdScorePlayer2').show()
-        $('#player2Status').show()
-    }
+    var twoPlayers = false
+    // This application is mobile designed first. The active gamer is only shown on mobile
+    if(width<=576){
+            displayMobile = true;
+            $('#currentScorePlayer2').hide()
+            $('#holdScorePlayer2').hide()
+            $('#player2Status').hide()
+            $('#bg1').hide()
+            $('#bg2').hide()
+            $('body').css("background-color","grey");
+            }else{
+            displayMobile = false;
+            $('#currentScorePlayer2').show()
+            $('#holdScorePlayer2').show()
+            $('#player2Status').show()
+        }
 
+
+    // function show 1 and show 2 are used in mobile mode only => Both players scores are shown on the same ID element of the DOM
     const show2 = () => {
         $('body').css("background-color","pink");
         $('#currentScorePlayer1').text(currentScorePlayer)
@@ -46,33 +38,16 @@ $(document).ready(() => {
         $('#holdScorePlayer1').text(holdScorePlayer1)
         $('#player1Status').text('Player 1')
     }
-    //const show2 = () => {
-    //    $('body').css("background-color","pink");
-    //    $('#currentScorePlayer1').hide()
-    //    $('#holdScorePlayer1').hide()
-    //    $('#player1Status').hide()
-    //    $('#currentScorePlayer2').show()
-    //    $('#holdScorePlayer2').show()
-    //    $('#player2Status').show()
-    //}
-    //
-    //const show1 = () => {
-    //    $('body').css("background-color","grey");
-    //    $('#currentScorePlayer2').hide()
-    //    $('#holdScorePlayer2').hide()
-    //    $('#player2Status').hide()
-    //    $('#currentScorePlayer1').show()
-    //    $('#holdScorePlayer1').show()
-    //    $('#player1Status').show()
-    //}
+    
 
+    // function called by clicking on NEW GAME and when a game is won by a player
+    // => activates the playing buttons and updated the player status
+    // prompt the gamers the players number
     const initNewGame = () => {
-        twoPlayers = false
-        playerTour = 0
-        holdScorePlayer1 = 0
-        holdScorePlayer2 = 0
         start = new CustomEvent('start')
         $('#startNewGame').off('click',initNewGame)
+        $('#playDice').on('click', addScore)
+        $('#holdScore').on('click',toggleGame)
         updateOne()
         updateTwo()    
         do {
@@ -82,25 +57,26 @@ $(document).ready(() => {
         if(numberOfPlayers == '2'){
             twoPlayers = true
         }
-    }
-
-    // game Started with player 1
-    const gameStarted = () => {
-        $('#playDice').trigger('start');
-        $('#startNewGame').off('start')
-    }
-
-    function addScore () {
-        score = Math.floor(Math.random() * Math.floor(6)+1);
-        currentScorePlayer = score + currentScorePlayer
-        displayScore()
-        if(score === 1){
-            alert('vous avez tiré le 1! vous passez votre tour')
-            toggleGameOnPlayed1()
-            }
-            index = 7
+        if(numberOfPlayers == '1'){
+            twoPlayers = false
         }
+    }
+        
+    //function used when playing dice.
+    function addScore () {
+            score = Math.floor(Math.random() * Math.floor(6)+1);
+            currentScorePlayer = score + currentScorePlayer
+            upDateCanvaDice()
+            displayScore()
+            if(score === 1){
+                alert('vous avez tiré le 1! vous passez votre tour')
+                currentScorePlayer = 0
+                toggleGame()
+                }
+                index = 7
+            }
 
+    // This function is designed for mobile first display of the ROUND SCORE. All gaming information are displayed on the player 1 screen
     function displayScore () {
                 if(displayMobile){
                 $('#currentScorePlayer1').text(currentScorePlayer)
@@ -110,8 +86,10 @@ $(document).ready(() => {
                     }else{
                         $('#currentScorePlayer2').text(currentScorePlayer)
                     }
-                 }
+                }
             }
+
+    // This function is designed for mobile first display of the HOLD SCORE. All gaming information are displayed on the player 1 screen
     function displayHoldScore () {
         if(displayMobile){
             if (playerTour === 0){
@@ -127,24 +105,15 @@ $(document).ready(() => {
                 $('#holdScorePlayer2').text(holdScorePlayer2)
             }
         }
-        if(holdScorePlayer1>=100){
-            alert(`Joueur 1 a gagné`)
-            initNewGame()
-        }
-        if(holdScorePlayer2>=100){
-            alert(`Joueur 2 a gagné`)
-            initNewGame()
-        }
     }
 
+    // function used in One player mode. The controler will play a maximum of 6 times
     function autoMode () {
-        $('#playDice').off('click', addScore)
         let roundAuto = Math.floor(Math.random() * Math.floor(6)+1)
         for (let index = 0; index < roundAuto; index++) {
                 score = Math.floor(Math.random() * Math.floor(6)+1);
                 currentScorePlayer = score + currentScorePlayer
                 displayScore()
-                console.log(score)
                 if(score === 1){
                     currentScorePlayer = 0
                     alert('Ordinateur a tiré 1! il passe son tour')
@@ -152,21 +121,27 @@ $(document).ready(() => {
                 }
         }
         holdScorePlayer2 = holdScorePlayer2 + currentScorePlayer
-        displayHoldScore()
         currentScorePlayer = 0
+        displayHoldScore()
         displayScore()
-        $('#playDice').on('click', addScore) // activation du bouton Play
         toggleGame()
     }
 
+    // The function toggle game is used each time a gamer or controler finished a ROUND By holding score or play 1)
+    // If one of the two players win, the game is reloaded automatically.
     function toggleGame () {
             if(playerTour === 0){
                 holdScorePlayer1 = holdScorePlayer1 + currentScorePlayer
                 displayHoldScore()
                 currentScorePlayer = 0
                 displayScore()
+                if(holdScorePlayer1>=100){
+                    alert(`Joueur 1 a gagné`)
+                    location.reload();
+                }
+                
                 if(displayMobile){
-                    setTimeout(show2, 2000)
+                    setTimeout(show2, 3000)
                 }
                 playerTour = 1
                 updateOne()
@@ -179,6 +154,10 @@ $(document).ready(() => {
                 displayHoldScore()
                 currentScorePlayer = 0
                 displayScore()
+                if(holdScorePlayer2>=100){
+                    alert(`Joueur 2 a gagné`)
+                    location.reload();
+                }
                 if(displayMobile){
                     setTimeout(show1, 3000)
                 }
@@ -188,217 +167,188 @@ $(document).ready(() => {
             }
     }
 
-    function toggleGameOnPlayed1 () {
-        if(playerTour === 0){
-            currentScorePlayer = 0
-            displayScore()
-            if(displayMobile){
-            setTimeout(show2, 3000)
+    // Active player status diplay : Player 1
+    updateOne = () => {
+        if(!displayMobile){
+            var activePlayer1 = document.getElementById("activePlayer1");
+            var ctx = activePlayer1.getContext("2d");
+            ctx.beginPath();
+            ctx.arc(20, 20, 10, 0, 2 * Math.PI);
+            if (playerTour===0){
+                color = 'red'
+            } else {
+                color = 'black'
             }
-            updateOne()
-            updateTwo()
-            toggleGame()
-        }else{
-            currentScorePlayer = 0
-            displayScore()
-            if(displayMobile){
-            setTimeout(show1, 3000)
-            }
-            updateOne()
-            updateTwo()
-            toggleGame()
+            ctx.fillStyle = color;
+            ctx.fill()
         }
     }
 
-    $('#startNewGame').on('click',initNewGame)
-    $('#playDice').on('click', addScore)
-    $('#holdScore').on('click',toggleGame)
-
-    //Ecouter l'événement.
-
-    //distribuer l'événement.
-
-updateOne = () => {
-    var activePlayer1 = document.getElementById("activePlayer1");
-    var ctx = activePlayer1.getContext("2d");
-    ctx.beginPath();
-    ctx.arc(20, 20, 10, 0, 2 * Math.PI);
-    if (playerTour===0){
-        color = 'red'
-    } else {
-        color = 'black'
+    // Active player status diplay : Player 2
+    // programmed in pure JS (witout JQUERY or KONVA)
+    updateTwo = () => {
+        if(!displayMobile){
+            var activePlayer2 = document.getElementById("activePlayer2");
+            var ctx2 = activePlayer2.getContext("2d");
+            ctx2.beginPath();
+            ctx2.arc(20, 20, 10, 0, 2 * Math.PI);
+            if (playerTour===1){
+                color = 'red'
+            } else {
+                color = 'black'
+            }
+            ctx2.fillStyle = color;
+            ctx2.fill()
+        }
     }
-    ctx.fillStyle = color;
-    ctx.fill()
-}
 
-updateTwo = () => {
-    var activePlayer2 = document.getElementById("activePlayer2");
-    var ctx2 = activePlayer2.getContext("2d");
-    ctx2.beginPath();
-    ctx2.arc(20, 20, 10, 0, 2 * Math.PI);
-    if (playerTour===1){
-        color = 'red'
-    } else {
-        color = 'black'
-    }
-    ctx2.fillStyle = color;
-    ctx2.fill()
-}
+    // Display of the dynamic dice only in desk mode
+    // Konva library is used
+    function upDateCanvaDice () {
+        if(!displayMobile){
+            // Display of the dynamic dice
+        // Konva library is used
+        var width = window.innerWidth/3;
+        var height = window.innerHeight/5;
+        var stage = new Konva.Stage({
+            container: 'dice',
+            width: width,
+            height: height,
+        });
 
-var width = window.innerWidth/3;
-var height = window.innerHeight/5;
-var xPos = window.innerWidth;
-var yPos = window.innerHeight;
-var stage = new Konva.Stage({
-  container: 'dice',
-  width: width,
-  height: height,
-});
+        var layer = new Konva.Layer();
+        var rect1 = new Konva.Rect({
+        x: width/2 -52,
+        y:10,
+        width: 100,
+        height: 100,
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 2,
+        shadowColor: 'black',
+        shadowBlur: 10,
+        shadowOffset: { x: 0, y: 0 },
+        shadowOpacity: 0.5,
+        });
 
-function upDateCanvaDice () {
-if(!displayMobile){
-    var layer = new Konva.Layer();
-    var rect1 = new Konva.Rect({
-    x: width/2 -52,
-    y:10,
-    width: 100,
-    height: 100,
-    fill: 'white',
-    stroke: 'black',
-    strokeWidth: 2,
-    shadowColor: 'black',
-    shadowBlur: 10,
-    shadowOffset: { x: 0, y: 0 },
-    shadowOpacity: 0.5,
-    });
+        // add the shape to the layer
+        var circle1 = new Konva.Circle({
+        x: width /2 - 5,
+        y: height / 2 - 10,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
-    // add the shape to the layer
-    //layer.add(rect1);
+        // add the shape to the layer
 
-    var circle1 = new Konva.Circle({
-    x: width /2 - 5,
-    y: height / 2 - 10,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
+        var circle2 = new Konva.Circle({
+        x: width /2 - 30,
+        y: height / 2 - 37.5,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
-    // add the shape to the layer
-    //layer.add(circle1);
+        var circle3 = new Konva.Circle({
+        x: width /2 + 20,
+        y: height / 2 - 37.5,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
-    var circle2 = new Konva.Circle({
-    x: width /2 - 30,
-    y: height / 2 - 37.5,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
-    //layer.add(circle2);
+        var circle4 = new Konva.Circle({
+        x: width /2 + 20,
+        y: height / 2 + 12.5,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
-    var circle3 = new Konva.Circle({
-    x: width /2 + 20,
-    y: height / 2 - 37.5,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
-    // layer.add(circle3);
+        var circle5 = new Konva.Circle({
+        x: width /2 - 30,
+        y: height / 2 - 10.5,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
-    var circle4 = new Konva.Circle({
-    x: width /2 + 20,
-    y: height / 2 + 12.5,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
-    //layer.add(circle4);
+        var circle6 = new Konva.Circle({
+        x: width /2 - 30,
+        y: height / 2 + 12.5,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
-    var circle5 = new Konva.Circle({
-    x: width /2 - 30,
-    y: height / 2 - 10.5,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
-
-    var circle6 = new Konva.Circle({
-    x: width /2 - 30,
-    y: height / 2 + 12.5,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
-    //layer.add(circle6);
-
-    var circle7 = new Konva.Circle({
-    x: width /2 + 20,
-    y: height / 2 - 10.5,
-    radius: 5,
-    fill: 'red',
-    stroke: 'red',
-    strokeWidth: 1,
-    });
+        var circle7 = new Konva.Circle({
+        x: width /2 + 20,
+        y: height / 2 - 10.5,
+        radius: 5,
+        fill: 'red',
+        stroke: 'red',
+        strokeWidth: 1,
+        });
 
 
-    // add the layer to the stage
-    layer.add(rect1)
-    switch (score) {
-    //refresh
-    case 1:
-        layer.add(circle1);
-        break;
-
-    case 2:
-        layer.add(circle2);
-        layer.add(circle4);
-        break;
-    case 3:
-        layer.add(circle2);
-        layer.add(circle1);
-        layer.add(circle4)
-
-        break;
-
-    case 4:
-        layer.add(circle2);
-        layer.add(circle3);
-        layer.add(circle4);
-        layer.add(circle6);
-        break;
-
-    case 5:
-        layer.add(circle1);
-        layer.add(circle2);
-        layer.add(circle3);
-        layer.add(circle4);
-        layer.add(circle6);
-        break;
-
-    case 6:
-        layer.add(circle2);
-        layer.add(circle3);
-        layer.add(circle4);
-        layer.add(circle5);
-        layer.add(circle6);
-        layer.add(circle7);
-
-        break;
-
-    default:
         layer.add(rect1)
-        break;
-    }
-}
+        switch (score) {
+        //refresh
+        case 1:
+            layer.add(circle1);
+            break;
 
-stage.add(layer);
-}
-$('#playDice').on('click', upDateCanvaDice)
+        case 2:
+            layer.add(circle2);
+            layer.add(circle4);
+            break;
+        case 3:
+            layer.add(circle2);
+            layer.add(circle1);
+            layer.add(circle4)
+
+            break;
+
+        case 4:
+            layer.add(circle2);
+            layer.add(circle3);
+            layer.add(circle4);
+            layer.add(circle6);
+            break;
+
+        case 5:
+            layer.add(circle1);
+            layer.add(circle2);
+            layer.add(circle3);
+            layer.add(circle4);
+            layer.add(circle6);
+            break;
+
+        case 6:
+            layer.add(circle2);
+            layer.add(circle3);
+            layer.add(circle4);
+            layer.add(circle5);
+            layer.add(circle6);
+            layer.add(circle7);
+
+            break;
+
+        default:
+            layer.add(rect1)
+            break;
+        }
+        stage.add(layer);
+    }
+
+    }
+    $('#startNewGame').on('click',initNewGame)
 
 })

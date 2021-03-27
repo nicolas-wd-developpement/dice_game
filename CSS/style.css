@@ -11,22 +11,24 @@
   }
 #holdScorePlayer1, #holdScorePlayer2{
   color: red;
-  font-size: 50px;
+  font-size: 40px;
 }
-
-
+/* Background used only for laptop */
 #bg1 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
   z-index: -1;
   background-color: grey;
-  width: max-content;
-  position: absolute;
   height: 1500px;
 }
+/* Background used only for laptop */
 #bg2 {
-  z-index: -1;
-  background-color: grey;
-  width: max-content;
   position: absolute;
+  left: 50%;
+  top: 0px;
+  z-index: -1;
+  background-color: pink;
   height: 1500px;
 }
 
